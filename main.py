@@ -89,7 +89,10 @@ orders = {
     'lvl_atk': '+1 ⚔️Атака',
     'lvl_off': 'Выключен',
     'kirka': '/on_119',
-    'rapira': '/on_106'
+    'rapira': '/on_106',
+    'nitki': '/s_101',
+    'nitki2': '/s_101 2',
+    'nitki3': '/s_101 3'
     
 }
 
@@ -283,11 +286,18 @@ def parse_text(text, username, message_id):
                 action_list.append(orders['kirka'])
                 action_list.append(orders['quests'])
                 action_list.append(orders['les'])
-            elif arena_enabled and not arena_delay and gold >= 5 and not arena_running and text.find('🛌Отдых') != -1:
+            elif arena_enabled and not arena_delay and not arena_running and text.find('🛌Отдых') != -1:
                 curhour = datetime.now(tz).hour
                 if 9 <= curhour <= 23:
                     log('Включаем флаг - арена запущена')
                     arena_running = True
+                    if gold < 5:
+                    if gold <= 0:
+                        action_list.append(orders['nitki3'])
+                    if 0 < gold < 3:
+                        action_list.append(orders['nitki2'])
+                    if 2 < gold < 5:
+                        action_list.append(orders['nitki'])
                     action_list.append(orders['rapira'])
                     action_list.append(orders['castle_menu'])
                     action_list.append('📯Арена')
