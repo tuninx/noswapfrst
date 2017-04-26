@@ -88,8 +88,6 @@ orders = {
     'lvl_def': '+1 🛡Защита',
     'lvl_atk': '+1 ⚔️Атака',
     'lvl_off': 'Выключен',
-    'kirka': '/on_119',
-    'rapira': '/on_106',
     'nitki': '/s_101',
     'nitki2': '/s_101 2',
     'nitki3': '/s_101 3'
@@ -264,8 +262,7 @@ def parse_text(text, username, message_id):
                                         action_list.append('/sell_206')
                                 else:
                                     log('Донат {0} золота в казну замка'.format(gold-gold_to_left))
-                                    action_list.append('/donate {0}'.format(gold-gold_to_left))
-                        action_list.append(orders['rapira'])
+                                    action_list.append('/donate {0}'.format(gold-gold_to_left))                        
                         update_order(castle)
                     return
             log('Времени достаточно')
@@ -279,11 +276,9 @@ def parse_text(text, username, message_id):
                     action_list.append(orders['quests'])
                     action_list.append(random.choice([orders['peshera'], orders['les']]))
                 else:
-                    action_list.append(orders['kirka'])
                     action_list.append(orders['quests'])
                     action_list.append(orders['peshera'])
-            elif les_enabled and not peshera_enabled and endurance >= 1 and orders['les'] not in action_list and text.find('🛌Отдых') != -1:
-                action_list.append(orders['kirka'])
+            elif les_enabled and not peshera_enabled and endurance >= 1 and orders['les'] not in action_list and text.find('🛌Отдых') != -1:                
                 action_list.append(orders['quests'])
                 action_list.append(orders['les'])
             elif arena_enabled and not arena_delay and not arena_running and text.find('🛌Отдых') != -1:
@@ -297,8 +292,7 @@ def parse_text(text, username, message_id):
                         if 0 < gold < 3:
                             action_list.append(orders['nitki2'])
                         if 2 < gold < 5:
-                            action_list.append(orders['nitki'])
-                    action_list.append(orders['rapira'])
+                            action_list.append(orders['nitki'])                    
                     action_list.append(orders['castle_menu'])
                     action_list.append('📯Арена')
                     action_list.append('🔎Поиск соперника')
