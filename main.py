@@ -128,8 +128,8 @@ gold_to_left = 0
 
 bot_enabled = True
 arena_enabled = True
-les_enabled = False
-peshera_enabled = True
+les_enabled = True
+peshera_enabled = False
 corovan_enabled = True
 order_enabled = True
 auto_def_enabled = True
