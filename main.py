@@ -24,6 +24,9 @@ order_usernames = ''
 # имя замка
 castle_name = 'blue'
 
+# имя бота замка
+cbot_name = 'BlueOysterBot'
+
 captcha_bot = 'ChatWarsCaptchaBot'
 
 # путь к сокет файлу
@@ -69,6 +72,8 @@ orders = {
     'white': '🇨🇾',
     'yellow': '🇻🇦',
     'blue': '🇪🇺',
+    'mint': '🇲🇴',
+    'twilight': '🇰🇮',
     'lesnoi_fort': '🌲Лесной форт',
     'les': '🌲Лес',
     'gorni_fort': '⛰Горный форт',
@@ -88,9 +93,6 @@ orders = {
     'lvl_def': '+1 🛡Защита',
     'lvl_atk': '+1 ⚔️Атака',
     'lvl_off': 'Выключен',
-    'nitki': '/s_101',
-    'nitki2': '/s_101 2',
-    'nitki3': '/s_101 3'
     
 }
 
@@ -159,6 +161,7 @@ def queue_worker():
     global tz
     lt_info = 0
     # гребаная магия
+    print(sender.contacts_search(cbot_name))
     print(sender.contacts_search(bot_username))
     print(sender.contacts_search(captcha_bot))
     sleep(3)
@@ -262,7 +265,8 @@ def parse_text(text, username, message_id):
                                         action_list.append('/sell_206')
                                 else:
                                     log('Донат {0} золота в казну замка'.format(gold-gold_to_left))
-                                    action_list.append('/donate {0}'.format(gold-gold_to_left))                        
+                                    action_list.append('/donate {0}'.format(gold-gold_to_left))
+                        fwd('@', cbot_name, hero_message_id)                        
                         update_order(castle)
                     return
             log('Времени достаточно')
@@ -281,18 +285,11 @@ def parse_text(text, username, message_id):
             elif les_enabled and not peshera_enabled and endurance >= 1 and orders['les'] not in action_list and text.find('🛌Отдых') != -1:                
                 action_list.append(orders['quests'])
                 action_list.append(orders['les'])
-            elif arena_enabled and not arena_delay and not arena_running and text.find('🛌Отдых') != -1:
+            elif arena_enabled and not arena_delay and gold >= 5 and not arena_running and text.find('🛌Отдых') != -1:
                 curhour = datetime.now(tz).hour
                 if 9 <= curhour <= 23:
                     log('Включаем флаг - арена запущена')
                     arena_running = True
-                    if gold < 5:
-                        if gold <= 0:
-                            action_list.append(orders['nitki3'])
-                        if 0 < gold < 3:
-                            action_list.append(orders['nitki2'])
-                        if 2 < gold < 5:
-                            action_list.append(orders['nitki'])                    
                     action_list.append(orders['castle_menu'])
                     action_list.append('📯Арена')
                     action_list.append('🔎Поиск соперника')
@@ -331,6 +328,10 @@ def parse_text(text, username, message_id):
                 update_order(orders['yellow'])
             elif text.find(orders['blue']) != -1:
                 update_order(orders['blue'])
+            elif text.find(orders['mint']) != -1:
+                update_order(orders['mint'])
+            elif text.find(orders['twilight']) != -1:
+                update_order(orders['twilight'])
             elif text.find('🌲') != -1:
                 update_order(orders['lesnoi_fort'])
             elif text.find('⛰') != -1:
